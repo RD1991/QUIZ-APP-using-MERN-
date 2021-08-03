@@ -1,15 +1,43 @@
 import React, { useEffect, useState } from 'react';
 import { getAllCategory } from '../../helper/helper';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import './Home.css';
 import Loader from 'react-loader-spinner';
 
 function Home() {
 	const [allCategory, setAllCategory] = useState([]);
 	const [loading, setLoading] = useState(true);
+	const [userLoggedIn, setUserLoggedIn] = useState(false);
+	const [loggedInUserRole, setLoggedInUserRole] = useState('');
+	const [name, setName] = useState('');
+	const history = useHistory ();
+
 	useEffect(() => {
+		const phoneNumber = localStorage.getItem("phoneNumber");
+		if ((phoneNumber == '') || (phoneNumber == null)) {
+			history.push("/");
+		}
+
+	  	const loggedInUserRole = localStorage.getItem("role");
+	  	setLoggedInUserRole(loggedInUserRole);
+
+	  	const name = localStorage.getItem("name");
+	  	if ((name == null) || (name == '')) {
+	  		setName(" ");
+	  	} else {
+	  		setName(name);
+	  	}
+
 		preloadAllCategory();
 	}, []);
+
+	const handleLogout = () => {
+		localStorage.removeItem("phoneNumber");
+		localStorage.removeItem("role");
+		localStorage.removeItem("name");
+		history.push("/");
+	}
+
 	const preloadAllCategory = async () => {
 		await getAllCategory()
 			.then((response) => {
@@ -18,17 +46,51 @@ function Home() {
 			})
 			.catch((error) => console.error(error));
 	};
+
+	const handleAddCategory = () => {
+		history.push('/addquestion');
+	}
+
+	const handleAddQeustion = () => {
+		history.push('/addquestion');
+	}
+
+	const handleRegister = () => {
+		history.push('/register');
+	}
+
+	const showBottomMenu = () => {
+		if (loggedInUserRole == 'admin') {
+			return (
+				<div className="home__body__admin_div">
+					<button className="home__body__admin" onClick={handleAddCategory}>Add Category</button>
+					<button className="home__body__admin" onClick={handleAddQeustion}>Add Question</button>
+					<button className="home__body__admin" onClick={handleRegister}>Register</button>
+				</div>
+			)
+		} else {
+			return '';
+		}
+	}
+
 	return (
 		<div className="home">
 			<div className="home__header">
+				<div className="home__body__logout_div">
+				</div>
 				<div className="home__title">
 					<strong>
-						Hey Dev{' '}
+						Hey {name.slice(0, name.indexOf(' '))}
 						<span role="img" aria-label="" alt="emojii">
 							😎😎
 						</span>
 					</strong>{' '}
 					Let's test your Knowledge
+				</div>
+				<div>
+					<div className="home__body__logout_div">
+						<button className="home__body__logout" onClick={handleLogout}>Logout</button>
+					</div>
 				</div>
 			</div>
 			<div className="home__body">
@@ -54,9 +116,7 @@ function Home() {
 					</Link>
 				))}
 			</div>
-			<Link className="home__body__addQuestion" to="/addquestion">
-				<button>Add Question</button>
-			</Link>
+			{showBottomMenu()}
 		</div>
 	);
 }

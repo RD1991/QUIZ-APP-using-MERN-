@@ -1,5 +1,7 @@
+// api-quiz-endpoints.herokuapp.com
+
 export const getAllCategory = () => {
-	return fetch(`http://api-quiz-endpoints.herokuapp.com/api/allCategory`, {
+	return fetch(`http://localhost:5050/api/allCategory`, {
 		method: 'GET',
 	})
 		.then((response) => response.json())
@@ -7,28 +9,25 @@ export const getAllCategory = () => {
 };
 
 export const getAllQuestionByCategory = (categoryId) => {
-	return fetch(`https://api-quiz-endpoints.herokuapp.com/api/get/${categoryId}`)
+	return fetch(`http://localhost:5050/api/get/${categoryId}`)
 		.then((response) => response.json())
 		.catch((error) => console.log(error));
 };
 
 export const getCategoryById = (categoryId) => {
 	return fetch(
-		`https://api-quiz-endpoints.herokuapp.com/api/category/${categoryId}`,
+		`http://localhost:5050/api/category/${categoryId}`,
 	)
 		.then((response) => response.json())
 		.catch((error) => console.error(error));
 };
+
 export const addQuestion = (question) => {
 	return fetch(
-		`http://api-quiz-endpoints.herokuapp.com/api/add/5f4a5663751a87977cda2fc3`,
+		`http://localhost:5050/api/add/5f4a5663751a87977cda2fc3`,
 		{
 			method: 'POST',
-			headers: {
-				Accept: 'application/json',
-				'Content-Type': 'application/json',
-			},
-			body: JSON.stringify(question),
+			body: question,
 		},
 	)
 		.then((docs) => {
@@ -36,3 +35,31 @@ export const addQuestion = (question) => {
 		})
 		.catch((error) => console.log(error));
 };
+
+export const loginUsingDetails = (phoneNumber) => {
+	return fetch(
+		`http://localhost:5050/api/user/${phoneNumber}`,
+	)
+		.then((response) => {
+			return response.json();
+		})
+		.catch((error) => console.log(error));
+};
+
+export const registerUsingDetails = (data) => {
+	return fetch(
+			`http://localhost:5050/api/registerUser`,
+			{
+				method: 'POST',
+				headers: {
+			      'Accept': 'application/json',
+			      'Content-Type': 'application/json'
+			    },
+				body: JSON.stringify(data),
+			},
+		)
+		.then((docs) => {
+			return docs.json();
+		})
+		.catch((error) => console.log(error));
+}

@@ -16,12 +16,18 @@ function Category() {
 	const [ans, setAns] = useState([]);
 	const [viewScoreboard, setViewScoreBoard] = useState(false);
 	const [time, setTime] = useState(0);
+	const [userLoggedIn, setUserLoggedIn] = useState(false);
 	const [scoreBoard, setScoreBoard] = useState({
 		Correct: 0,
 		Wrong: 0,
 		Skipped: 0,
 	});
 	useEffect(() => {
+		const phoneNumber = localStorage.getItem("phoneNumber");
+		if ((phoneNumber == '') && (phoneNumber == null)) {
+			history.push('/');
+		}
+
 		let categoryId = history.location.pathname.split('/')[2];
 		preloadCateogry(categoryId);
 		preloadQuestion(categoryId);
@@ -85,6 +91,7 @@ function Category() {
 		if (seconds <= 9) seconds = '0' + seconds;
 		return `${hours}:${minutes}:${seconds} `;
 	};
+	
 	return (
 		<div className="category">
 			<div
@@ -94,7 +101,7 @@ function Category() {
 				}}
 			>
 				<div className="category__headerQuit">
-					{viewIndex + 1} / {questions.length - 1}
+					{viewIndex + 1} / {questions.length}
 				</div>
 				<div className="category__headerTitle">
 					<div className="category__headerTitleImage">
@@ -102,7 +109,7 @@ function Category() {
 					</div>
 					<div className="category__headerTitleText">{category.name}</div>
 				</div>
-				<div className="category__headeTimer">{timer()}</div>
+				<div className="category__headeTimer"></div>
 			</div>
 			<div className="category__loading">
 				{loading ? (
@@ -154,7 +161,7 @@ function Category() {
 					) : (
 						''
 					)}
-					{questions.length - 2 !== viewIndex ? (
+					{questions.length - 1 !== viewIndex ? (
 						<div
 							onClick={() => {
 								if (viewIndex + 1 <= questions.length - 1)
@@ -167,7 +174,7 @@ function Category() {
 					) : (
 						''
 					)}
-					{questions.length - 2 === viewIndex && !viewScoreboard ? (
+					{questions.length - 1 === viewIndex && !viewScoreboard ? (
 						<div className="category__toggleNext" onClick={handleValidation}>
 							Submit
 						</div>

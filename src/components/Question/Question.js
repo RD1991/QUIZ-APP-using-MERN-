@@ -18,21 +18,16 @@ function Question({
 	return (
 		<div className="question" style={{ background: color }}>
 			<div className="question__header">
-				{index + 1} {question.question}
+				{index + 1 + ')'} {question.question} 
 			</div>
-			{question.code ? (
+			{question.image ? (
 				<div className="question__code">
-					<AceEditor
+					<img
 						style={{
-							height: '250px',
-							width: '100%',
+							height: '300px',
+							width: '300px',
 						}}
-						mode={category}
-						theme="monokai"
-						fontSize={20}
-						readOnly={true}
-						value={question.code}
-						setOptions={{ showLineNumbers: false }}
+						src={"http://localhost:5050/" + question.image}
 					/>
 				</div>
 			) : (

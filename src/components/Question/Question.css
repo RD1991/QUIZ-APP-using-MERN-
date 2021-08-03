@@ -24,6 +24,7 @@
 .question__code {
 	width: 100%;
 	font-family: poppins;
+	text-align: center;
 }
 .question__header {
 	padding: 15px;
