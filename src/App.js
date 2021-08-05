@@ -3,6 +3,7 @@ import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import './App.css';
 import AddQuestion from './components/AddQuestion/AddQuestion';
 import Category from './components/Category/Category';
+import AddCategory from './components/AddCategory/AddCategory';
 import Home from './components/Home/Home';
 import Login from './components/Login/Login';
 import Register from './components/Register/Register';
@@ -18,6 +19,7 @@ function App() {
 					<Route exact path="/home" component={Home} />
 					<Route exact path="/api/*" component={Category} />
 					<Route exact path="/addquestion" component={AddQuestion} />
+					<Route exact path="/addcategory" component={AddCategory} />
 					<Route exact path="/register" component={Register} />
 				</Switch>
 			</BrowserRouter>

@@ -36,6 +36,20 @@ export const addQuestion = (question) => {
 		.catch((error) => console.log(error));
 };
 
+export const addCategory = (category) => {
+	return fetch(
+		`http://localhost:5050/api/addCategory`,
+		{
+			method: 'POST',
+			body: category,
+		},
+	)
+		.then((docs) => {
+			return docs.json();
+		})
+		.catch((error) => console.log(error));
+};
+
 export const loginUsingDetails = (phoneNumber) => {
 	return fetch(
 		`http://localhost:5050/api/user/${phoneNumber}`,

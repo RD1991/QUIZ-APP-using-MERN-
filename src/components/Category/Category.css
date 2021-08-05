@@ -14,7 +14,6 @@
 	align-items: center;
 }
 .category__headerQuit {
-	flex: 1;
 	display: flex;
 	justify-content: center;
 }
@@ -72,6 +71,19 @@ img {
 	display: flex;
 	justify-content: center;
 }
+
+.category_back {
+	border: none;
+	text-decoration: none;
+	padding: 16px;
+	background: #cccccc;
+	font-family: poppins;
+	font-weight: bolder;
+	cursor: pointer;
+	border-radius: 15px;
+	box-shadow: rgba(0, 0, 0, 0.1) 0px 5px 20px;
+}
+
 @media only screen and (max-width: 750px) {
 	.category {
 		margin: auto;

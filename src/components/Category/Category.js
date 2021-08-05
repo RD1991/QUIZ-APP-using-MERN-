@@ -92,24 +92,29 @@ function Category() {
 		return `${hours}:${minutes}:${seconds} `;
 	};
 	
+	const handleBackButton = () => {
+		history.go(-1);
+	}
+
 	return (
 		<div className="category">
 			<div
 				className="category__header"
 				style={{
 					backgroundColor: category.bgColor,
-				}}
-			>
+				}}>
 				<div className="category__headerQuit">
 					{viewIndex + 1} / {questions.length}
 				</div>
 				<div className="category__headerTitle">
 					<div className="category__headerTitleImage">
-						<img src={category.logo} alt={category.name} />
+						<img src={"http://localhost:5050/" + category.logo} alt={category.name} />
 					</div>
 					<div className="category__headerTitleText">{category.name}</div>
 				</div>
-				<div className="category__headeTimer"></div>
+				<div>
+					<button className="category_back" onClick={handleBackButton}> Home </button>
+				</div>
 			</div>
 			<div className="category__loading">
 				{loading ? (

@@ -6,6 +6,7 @@ import Loader from 'react-loader-spinner';
 
 function Home() {
 	const [allCategory, setAllCategory] = useState([]);
+	const [rawAllCategory, setRawAllCategory] = useState([]);
 	const [loading, setLoading] = useState(true);
 	const [userLoggedIn, setUserLoggedIn] = useState(false);
 	const [loggedInUserRole, setLoggedInUserRole] = useState('');
@@ -42,13 +43,14 @@ function Home() {
 		await getAllCategory()
 			.then((response) => {
 				setAllCategory(response.categories);
+				setRawAllCategory(response.categories);
 				setLoading(false);
 			})
 			.catch((error) => console.error(error));
 	};
 
 	const handleAddCategory = () => {
-		history.push('/addquestion');
+		history.push('/addcategory');
 	}
 
 	const handleAddQeustion = () => {
@@ -57,6 +59,21 @@ function Home() {
 
 	const handleRegister = () => {
 		history.push('/register');
+	}
+
+	const handleSearchEventWithValue = async (searchValue) => {
+		if ((searchValue == '') && (searchValue.length == 0)) {
+			setAllCategory(rawAllCategory);
+		} else {
+			let newCategoryResults = [];
+			for (const [index, category] of Object.entries(allCategory)) {
+				if (category.name.includes(searchValue)) {
+					newCategoryResults.push(category);
+				}
+			}
+
+			await setAllCategory(newCategoryResults);
+		}
 	}
 
 	const showBottomMenu = () => {
@@ -93,6 +110,15 @@ function Home() {
 					</div>
 				</div>
 			</div>
+			<div className="home_search_div">
+				<input 
+					className="home_search" 
+					type="text" 
+					placeholder="Search.." 
+					onChange={(e) => {
+						handleSearchEventWithValue(e.target.value);
+					}}/>
+			</div>
 			<div className="home__body">
 				{loading ? (
 					<Loader type="Oval" color="#00BFFF" height={50} width={50} />
@@ -108,7 +134,7 @@ function Home() {
 						to={'/api/' + category._id}
 					>
 						<div className="home__body_block_img">
-							<img src={category.logo} alt={category.name} />
+							<img src={"http://localhost:5050/" + category.logo} alt={category.name} />
 						</div>
 						<div className="home__body_block_title_wrapper">
 							<div className="home__body_block_title">{category.name}</div>
